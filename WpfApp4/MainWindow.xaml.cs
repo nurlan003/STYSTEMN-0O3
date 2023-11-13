@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,10 +28,12 @@ namespace WpfApp4
         {
             InitializeComponent();
         }
+        string FileText;
+       
         static string XOREncrypt(string text, string key)
         {
             StringBuilder encryptedText = new StringBuilder();
-
+            
             for (int i = 0; i < text.Length; i++)
             {
          
@@ -38,6 +42,7 @@ namespace WpfApp4
 
                 int encryptedValue = charValue ^ keyValue;
                 encryptedText.Append((char)encryptedValue);
+                
             }
 
             return encryptedText.ToString();
@@ -90,12 +95,11 @@ namespace WpfApp4
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-                string dosyaYolu = txtpath.Text;
-                string metin = DosyadanMetinCek(dosyaYolu);
-                string keyy =passtxt.Text;
-                string sifreliMetin = XOREncrypt(metin, keyy);
-
+            prgbar.Maximum=FileText.Length;
             if (encbtn.IsChecked==true) {
+                string dosyaYolu = txtpath.Text;
+                string keyy =passtxt.Text;
+                string sifreliMetin = XOREncrypt(FileText, keyy);
                 StringiDosyayaYaz(dosyaYolu, sifreliMetin);
                 MessageBox.Show(sifreliMetin);
 
@@ -104,10 +108,42 @@ namespace WpfApp4
 
 
             if (dencbtn.IsChecked == true) {
-                StringiDosyayaYaz(dosyaYolu, metin);
-                MessageBox.Show(metin);
-                MessageBox.Show("AAA");
+                string dosyaYolu = txtpath.Text;
+                string keyy = passtxt.Text;
+                string sifreliMetin = XOREncrypt(FileText, keyy);
+                StringiDosyayaYaz(dosyaYolu, FileText);
+                MessageBox.Show(FileText);
             };
+            for (int i = 0;i< prgbar.Maximum;i++) {
+                Thread.Sleep(100);
+                prgbar.Value++;
+            }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    // Dosya yolu TextBox'a atanır.
+                    txtpath.Text = openFileDialog.FileName;
+
+                    // Dosya içeriği bir string'e okunur.
+                    FileText = File.ReadAllText(openFileDialog.FileName);
+
+                    // Dosya içeriğini kullanabilirsiniz.
+                    // Örneğin, bir MessageBox'ta gösterelim:
+                    MessageBox.Show("Dosya İçeriği:\n\n" + FileText);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Dosya açma hatası: " + ex.Message);
+                }
+            }
         }
     }
 }
