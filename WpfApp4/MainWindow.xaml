@@ -1,0 +1,34 @@
+﻿<Window x:Class="WpfApp4.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp4"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid>
+            <Button Margin="134,59,577,348">File</Button>
+            <TextBox x:Name="txtpath"  Margin="247,61,161,348"></TextBox>
+            <TextBlock Margin="134,115,607,294" FontSize="13">Password</TextBlock>
+            <TextBox x:Name="passtxt" Margin="198,111,513,298" ></TextBox>
+            <RadioButton x:Name="encbtn" Margin="320,115,467,302"></RadioButton>
+            <RadioButton  x:Name="dencbtn" Margin="421,115,360,300" RenderTransformOrigin="0.5,0.5">
+                <RadioButton.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleX="0.129"/>
+                        <RotateTransform/>
+                        <TranslateTransform X="0.489"/>
+                    </TransformGroup>
+                </RadioButton.RenderTransform>
+            </RadioButton>
+            <TextBlock Margin="341,113,400,295" FontSize="13">Encrypt</TextBlock>
+            <TextBlock Margin="443,113,298,296" FontSize="13">Dencrypt</TextBlock>
+            <ProgressBar Margin="134,158,115,250" Maximum="100" Minimum="0" Value="0"></ProgressBar>
+            <Button Margin="428,217,283,190" Click="Button_Click">Start</Button>
+            <Button Margin="573,217,138,190">Cancel</Button>
+
+        </Grid>
+    </Grid>
+</Window>
